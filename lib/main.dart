@@ -1,21 +1,18 @@
 import 'dart:developer';
+import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import 'package:after_layout/after_layout.dart';
-import 'package:covid_news/utils/assets_utils.dart';
-import 'package:covid_news/widgets/animated_entrance_widget.dart';
-import 'package:covid_news/widgets/measure_size.dart';
-import 'package:covid_news/widgets/summary_chart.dart';
-import 'package:covid_news/widgets/summary_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'dart:ui' as ui;
-import 'package:avatar_glow/avatar_glow.dart';
-import 'package:lottie/lottie.dart';
-import 'dart:math' as math;
 
+import 'constants.dart';
 import 'models/covid19_model.dart';
+import 'utils/assets_utils.dart';
+import 'widgets/animated_entrance_widget.dart';
+import 'widgets/summary_item.dart';
 
 final random = math.Random();
 
@@ -51,21 +48,19 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with AfterLayoutMixin<MyHomePage> {
+  bool animationFinish = false;
   Covid19Model covid19Data = Covid19Model().loading();
+  GlobalKey hilightActive = GlobalKey();
+  GlobalKey hilightDeath = GlobalKey();
+  GlobalKey hilightRecovered = GlobalKey();
   bool isError = false;
   bool isLoading = true;
-  bool animationFinish = false;
-
-  GlobalKey hilightActive = GlobalKey();
-  GlobalKey hilightRecovered = GlobalKey();
-  GlobalKey hilightDeath = GlobalKey();
-
   GlobalKey summaryActive = GlobalKey();
-  GlobalKey summaryRecovered = GlobalKey();
   GlobalKey summaryDeath = GlobalKey();
-  final AssetsUtils _assetsUtils = AssetsUtils.getInstance();
+  GlobalKey summaryRecovered = GlobalKey();
 
   double _active = 100, _recovered = 0, _lost = 0;
+  final AssetsUtils _assetsUtils = AssetsUtils.getInstance();
   final TextStyle _titleStyle = new TextStyle(
     fontSize: 22,
     color: Colors.white,
@@ -293,6 +288,7 @@ class _MyHomePageState extends State<MyHomePage>
 
   @override
   Widget build(BuildContext context) {
+    var isTablet = AnimatedRoutes.isTablet(MediaQuery.of(context));
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -312,7 +308,7 @@ class _MyHomePageState extends State<MyHomePage>
                           child: Row(
                             children: [
                               Expanded(
-                                flex: 3,
+                                flex: isTablet ? 2 : 3,
                                 child: AnimatedEntranceWidget(
                                   offsetStart: 0.2,
                                   offsetEnd: 1,
@@ -509,13 +505,6 @@ class _MyHomePageState extends State<MyHomePage>
 }
 
 class MyPainter extends CustomPainter {
-  final GlobalKey hilightActive;
-  final GlobalKey hilightRecovered;
-  final GlobalKey hilightDeath;
-  final GlobalKey summaryActive;
-  final GlobalKey summaryRecovered;
-  final GlobalKey summaryDeath;
-
   MyPainter({
     Key key,
     this.hilightActive,
@@ -525,6 +514,14 @@ class MyPainter extends CustomPainter {
     this.summaryRecovered,
     this.summaryDeath,
   });
+
+  final GlobalKey hilightActive;
+  final GlobalKey hilightDeath;
+  final GlobalKey hilightRecovered;
+  final GlobalKey summaryActive;
+  final GlobalKey summaryDeath;
+  final GlobalKey summaryRecovered;
+
   // : super(this.key: key);
 
   //         <-- CustomPainter class
@@ -605,7 +602,7 @@ class MyPainter extends CustomPainter {
 
     final pointMode = ui.PointMode.polygon;
     final points1 = [
-      Offset(x1 + 1, y1 - 69),
+      Offset(x1, y1 - 70),
       Offset(x1 + x1 / 5, ys1 - 16),
 
       // Offset(x2, y2),
@@ -616,7 +613,7 @@ class MyPainter extends CustomPainter {
     ];
     final points2 = [
       // Offset(x1, y1),
-      Offset(x2 + 1, y2 - 69),
+      Offset(x2, y2 - 70),
       Offset(x2 + x2 / 5, ys2 - 16),
       // Offset(x3, y3),
       // Offset(xs1, ys1),
@@ -627,7 +624,7 @@ class MyPainter extends CustomPainter {
     final points3 = [
       // Offset(x1, y1),
       // Offset(x2, y2),
-      Offset(x3 + 1, y3 - 69),
+      Offset(x3, y3 - 70),
       Offset(x3 + x3 / 5, ys3 - 16),
       // Offset(xs1, ys1),
       // Offset(xs2, ys2),

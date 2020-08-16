@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import "package:animations/animations.dart";
 
@@ -38,6 +40,14 @@ double yMargin(double x) {
 }
 
 class AnimatedRoutes {
+  static bool isTablet(MediaQueryData query) {
+    var size = query.size;
+    var diagonal =
+        sqrt((size.width * size.width) + (size.height * size.height));
+    var isTablet = diagonal > 1100.0;
+    return isTablet;
+  }
+
   static Route<T> fadeThrough<T>(page, [double duration = 1000]) {
     return PageRouteBuilder<T>(
       transitionDuration: Duration(milliseconds: (duration * 1000).round()),
