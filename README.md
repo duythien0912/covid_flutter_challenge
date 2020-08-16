@@ -1,8 +1,8 @@
-# Flutter UI Challenge: Covid-19 🌍 🎗
+# 🐋 Flutter UI Challenge: Covid-19 🎗🌍🎗
 
-# Demo
+# 👨‍💻💻Demo
 
-## https://duythien0912.github.io/covid_flutter_challenge/build/web/index.html#/
+## 🕸 https://duythien0912.github.io/covid_flutter_challenge/build/web/index.html#/
 
 
 ![alt text](https://raw.githubusercontent.com/duythien0912/covid_flutter_challenge/master/ezgif.com-video-to-gif.gif)
